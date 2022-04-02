@@ -23,7 +23,7 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
   
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- =======================================================
   * Template Name: DevFolio - v4.7.1
   * Template URL: https://bootstrapmade.com/devfolio-bootstrap-portfolio-html-template/
@@ -523,11 +523,11 @@
                       </h5>
                     </div>
                     <div>
-                      <form id="submit-form" action="">
+                      <form id="submit-form" >
                         <div class="row">
                           <div class="col-md-12 mb-3">
                             <div class="form-group">
-                              <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" onkeyup="nameValidate()" required>
+                              <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" onkeyup="nameValidate()" pattern="[A-Za-z]{1,15}" required>
                             </div>
                           </div>
                           <div id="errormsg" style="color: red"></div>
@@ -539,12 +539,12 @@
                           <div id="errormsg1" style="color: red"> </div>
                           <div class="col-md-12 mb-3">
                             <div class="form-group">
-                              <input type="number" class="form-control" name="subject" id="number" placeholder="phone number" onkeyup="mobileValidate()">                            </div>
+                              <input type="tel" class="form-control" name="phone" id="number" placeholder="phone number" onkeyup="mobileValidate()" pattern="[7-9]{1}[0-9]{9}" required>                            </div>
                           </div>
                           <div id="errormsg2" style="color: red"> </div>
                           <div class="col-md-12">
                             <div class="form-group">
-                              <textarea class="form-control" name="message" rows="5" placeholder="Message" onkeyup="messageValidate()" required></textarea>
+                              <textarea data-typed-items="textarea" class="form-control" name="message" rows="5"  placeholder="Message" onkeyup="messageValidate()" required></textarea>
                             </div>
                           </div>
                           <div id="errormsg3" style="color: red"> </div>
@@ -641,16 +641,16 @@
 <script>
 function nameValidate(){
   var varname = $('#name').val();
-  var pattern =  /[a-zA-Z]+$/;
+  var pattern = /[a-zA-Z]+$/;
 
-  if(varname==" "){
+  if(varname==""){
     $('#errormsg').html("Name is mandatory");
     return false;
   }else if(varname.match(pattern)){
     $('#errormsg').html("");
     return true;
   }else{
-    $('#errormsg').html("Enter correct name");
+    $('#errormsg').html("Enter letters only");
     return false;
   }
 }
@@ -660,13 +660,14 @@ function emailValidate(){
   var emailPattern = /^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   if(varEmail==""){
+    
     $('#errormsg1').html("Email is mandatory");
     return false;
   }else if(varEmail.match(emailPattern)){
     $('#errormsg1').html("");
     return true;
   }else{
-    $('#errormsg1').html("Enter correct Email");
+    $('#errormsg1').html("Enter Valid Email Address");
     return false;
   }
 
@@ -715,7 +716,9 @@ function messageValidate(){
   $("#submit-form").submit((e)=>{
       e.preventDefault()
       $.ajax({
-          url:"https://script.google.com/macros/s/AKfycbxRbYduadJOUdb79FzIp_pB-CvaJ1o96YQe-WwE2ffwY3m2wIpYop-qVpGTupMzhZLP7g/exec",
+        
+        url:" https://script.google.com/macros/s/AKfycbwLSmWIzqBfCwK6czB2r76RrSbuCbZPDsFSH49XlA/exec",
+        //url:"https://script.google.com/macros/s/AKfycbxRbYduadJOUdb79FzIp_pB-CvaJ1o96YQe-WwE2ffwY3m2wIpYop-qVpGTupMzhZLP7g/exec",
           data:$("#submit-form").serialize(),
           method:"post",
           success:function (response){
