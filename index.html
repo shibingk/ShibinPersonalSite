@@ -523,39 +523,37 @@
                       </h5>
                     </div>
                     <div>
-                      <form id="submit-form" >
+                      <form id="submitform">
                         <div class="row">
                           <div class="col-md-12 mb-3">
                             <div class="form-group">
-                              <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" onkeyup="nameValidate()" pattern="[A-Za-z]{1,15}" required>
+                              <input type="text" name="name" class="form-control" oninput="this.value=this.value.replace(/[^A-Za-z-/]|^ /g, '')" maxlength="20" onkeyup="Per()" id="name" placeholder="Your Name">
+                              <p class="er" id="peer"></p>
                             </div>
                           </div>
-                          <div id="errormsg" style="color: red"></div>
                           <div class="col-md-12 mb-3">
                             <div class="form-group">
-                              <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" onkeyup="emailValidate()" required>
+                              <input type="email" class="form-control" name="email"  onkeyup="mal()"  id="email" placeholder="Your Email">
+                              <p class="er" id="maal"></p>
                             </div>
                           </div>
-                          <div id="errormsg1" style="color: red"> </div>
                           <div class="col-md-12 mb-3">
                             <div class="form-group">
-                              <input type="tel" class="form-control" name="phone" id="number" placeholder="phone number" onkeyup="mobileValidate()" pattern="[7-9]{1}[0-9]{9}" required>                            </div>
+                              <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject">
+                            </div>
                           </div>
-                          <div id="errormsg2" style="color: red"> </div>
                           <div class="col-md-12">
                             <div class="form-group">
-                              <textarea data-typed-items="textarea" class="form-control" name="message" rows="5"  placeholder="Message" onkeyup="messageValidate()" required></textarea>
+                              <textarea class="form-control" name="message" rows="5" placeholder="Message"></textarea>
                             </div>
                           </div>
-                          <div id="errormsg3" style="color: red"> </div>
-
                           <div class="col-md-12 text-center my-3">
-                            <div class="loading"></div>
+                           
                             <div class="error-message"></div>
-                            <div class="sent-message"></div>
+                         
                           </div>
                           <div class="col-md-12 text-center">
-                            <button type="submit" value="submit" class="button button-a button-big button-rouded" onclick="validate()">Send Message</button>
+                            <button type="submit" class="button button-a button-big button-rouded">Send Message</button>
                           </div>
                         </div>
                       </form>
@@ -625,115 +623,46 @@
   Web Development
 
 
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/purecounter/purecounter.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/typed.js/typed.min.js"></script>
 
-   <!-- Vendor JS Files -->
-   <script src="assets/vendor/purecounter/purecounter.js"></script>
-   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-   <script src="assets/vendor/typed.js/typed.min.js"></script>
-   <script src="assets/vendor/php-email-form/validate.js"></script>
- 
-   <!-- Template Main JS File -->
-   <script src="assets/js/main.js"></script>
-  
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/validation.js"></script>
 
-<script>
-function nameValidate(){
-  var varname = $('#name').val();
-  var pattern = /[a-zA-Z]+$/;
 
-  if(varname==""){
-    $('#errormsg').html("Name is mandatory");
-    return false;
-  }else if(varname.match(pattern)){
-    $('#errormsg').html("");
-    return true;
-  }else{
-    $('#errormsg').html("Enter letters only");
-    return false;
-  }
-}
+    <script>
+    $("#submitform").submit((e)=>{
+        e.preventDefault()
+        if($('#submitform').valid()){
+        $.ajax({
+            url:"https://script.google.com/macros/s/AKfycbxRbYduadJOUdb79FzIp_pB-CvaJ1o96YQe-WwE2ffwY3m2wIpYop-qVpGTupMzhZLP7g/exec",
+            data:$("#submitform").serialize(),
+            method:"post",
+            success:function (response){
+                alert("Form submitted successfully")
+                window.location.reload()
+                $("#submitform")[0].reset();
+                //window.location.href="https://google.com"
+            },
+            error:function (err){
+                alert("Something Error")
 
-function emailValidate(){
-  var varEmail = $('#email').val();
-  var emailPattern = /^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-  if(varEmail==""){
-    
-    $('#errormsg1').html("Email is mandatory");
-    return false;
-  }else if(varEmail.match(emailPattern)){
-    $('#errormsg1').html("");
-    return true;
-  }else{
-    $('#errormsg1').html("Enter Valid Email Address");
-    return false;
-  }
-
-}
-
-function mobileValidate(){
-  var varMobile = $('#number').val();
-  var mobilePattern = /^\d{10}$/;
-
-  if(varMobile==""){
-    $('#errormsg2').html("Contact number is mandatory");
-    return false;
-  }else if(varMobile.match(mobilePattern)){
-    $('#errormsg2').html("");
-    return true;
-  }
-  else if(varMobile.length<10 ||varMobile.length>=10){
-    $('#errormsg2').html("Number should be 10 digits");
-  }
-  else{
-    $('#errormsg2').html("Enter valid Contact number");
-    return false;
-  }
-}
-
-function messageValidate(){
-  var varMessage = $('#msg').val();
-
-  if(varMessage==""){
-    $('#errormsg3').html("Enter something please");
-    return false;
-  }else {
-    $('#errormsg3').html("");
-    return true;
-  }
-}
+            }
+            
+        })
+      }
+    })
 </script>
 
-
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
 
-
-<script>
-     
-  $("#submit-form").submit((e)=>{
-      e.preventDefault()
-      $.ajax({
-        
-        url:" https://script.google.com/macros/s/AKfycbwLSmWIzqBfCwK6czB2r76RrSbuCbZPDsFSH49XlA/exec",
-        //url:"https://script.google.com/macros/s/AKfycbxRbYduadJOUdb79FzIp_pB-CvaJ1o96YQe-WwE2ffwY3m2wIpYop-qVpGTupMzhZLP7g/exec",
-          data:$("#submit-form").serialize(),
-          method:"post",
-          success:function (response){
-             
-              window.location.reload()
-              alert("Form submitted successfully")
-             
-          },
-          error:function (err){
-              alert("Something Error")
-
-          }
-      })
-  })
-  </script>
+<script src="validation.js"></script>
 
 
 
